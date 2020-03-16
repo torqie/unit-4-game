@@ -2,6 +2,11 @@
 const allCharacters = $('.characters');
 const enemiesDiv = $("#enemies");
 
+const marioCardHealth = $(".characters .mario .health");
+const luigiCardHealth = $(".characters .luigi .health");
+const toadCardHealth = $(".characters .toad .health");
+const peachCardHealth = $(".characters .peach .health");
+
 const game = {
   /** -- Define The Game Objects Variables -- **/
   player: null,
@@ -44,18 +49,65 @@ const game = {
   },
 
   attack() {
-    // Player attacks enemy with attack property
-    // Display the dmg to the user
-    // Lower enemy health
-    // Check if enemy is dead
-    // Add the baseAttack to the attack to create the new attack
 
-    // Pause for 1 second
+    /** -- Player attacks enemy -- **/
+    // Pause for 3 seconds
+    game.playerAttack();
+    setTimeout(function () {game.enemyAttack()}, 2600);
 
     //enemy attacks player with attack property
+
+
+  },
+
+  playerAttack() {
+    const enemy = this.enemy;
+    const player = this.player;
+    const attackBox = $("#attack-box");
+    // Lower enemy health
+    enemy.health = enemy.health - player.attack;
+    // Display the dmg to the user
+    $(attackBox).append("<p class='txt-success'>"+ player.name +" attacks " + enemy.name + " for " + player.attack + " damage!</p>");
+    $(attackBox).children().hide().fadeIn(500, function() {
+      $(this).fadeOut(2000, function () {
+        $(this).remove()
+      })
+    });
+    this.updateGameText();
+    // Check if enemy is dead
+    // Add the baseAttack to the attack to create the new attack
+    player.attack += player.baseAttack;
+  },
+
+  enemyAttack() {
+    const enemy = this.enemy;
+    const player = this.player;
+    const attackBox = $("#attack-box");
+    // Lower players health
+    player.health -= enemy.attack;
     //display the dmg to the user
-    //lower player health
+    $(attackBox).append("<p class='txt-success'>"+ enemy.name +" attacks " + player.name + " for " + enemy.attack + " damage!</p>");
+    $(attackBox).children().hide().fadeIn(500, function() {
+      $(this).fadeOut(2000, function () {
+        $(this).remove()
+      })
+    });
+    this.updateGameText();
+
     //Check if player is dead
+  },
+
+  updateGameText() {
+    marioCardHealth.html(this.characters.mario.health);
+    luigiCardHealth.html(this.characters.luigi.health);
+    toadCardHealth.html(this.characters.toad.health);
+    peachCardHealth.html(this.characters.peach.health);
+  },
+
+  debug() {
+    console.log(this.player);
+    console.log(this.enemy);
+    console.log("-------------------------------");
   }
 
 };
@@ -79,7 +131,6 @@ $(".character").on('click', function () {
   } else if(game.enemy === null) {
 
     game.enemy = game.characters[$(this).data("name")];
-    console.log(game.enemy);
     $(this).appendTo("#enemySpot");
     $(this).addClass("chosen");
     $(".logo").addClass("battle");
@@ -90,7 +141,7 @@ $(".character").on('click', function () {
 
 /** -- Click To Attack Your Enemy -- **/
 $('#button-attack').on("click", function() {
-
+  game.attack();
 });
   // Attack Enemy and take player.attack away from enemy.health
   //
