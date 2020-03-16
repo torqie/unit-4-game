@@ -1,11 +1,11 @@
 //Define Global variables
 const allCharacters = $('.characters');
-const enemies = $("#enemies");
+const enemiesDiv = $("#enemies");
 
 const game = {
   /** -- Define The Game Objects Variables -- **/
-  myCharacter: null,
-  enemyCharacter: null,
+  player: null,
+  enemy: null,
 
 
   /** -- Define Each Character As An Object -- **/
@@ -45,26 +45,23 @@ const game = {
 
 /** -- Click To Choose Your Character -- **/
 $(".character").on('click', function () {
-  // Check if the myCharacter variable is empty
-  if(game.myCharacter === null) {
-    // Put chosen character into the myCharacter variable.
-    game.myCharacter = game.characters[$(this).data("name")];
-    console.log(game.myCharacter);
-
+  if(game.player === null) {
+    // Put chosen character into the player variable.
+    game.player = game.characters[$(this).data("name")];
     // Shrink all characters to 500px;
     allCharacters.children().addClass("small");
     allCharacters.removeClass("full");
-    // Add the class to the character that was clicked
+    // Add the class to the character that was clicked to highlight them
     $(this).addClass("chosen");
-    // Move selected character to the myCharacter Spot
-    $(this).appendTo('#myCharacterSpot');
-    allCharacters.children().appendTo("#enemies");
+    // Move selected character to the player Spot
+    $(this).appendTo('#playerSpot');
+    allCharacters.children().appendTo(enemiesDiv);
 
-  } else if(game.enemyCharacter === null) {
+  } else if(game.enemy === null) {
 
-    game.enemyCharacter = game.characters[$(this).data("name")];
-    console.log(game.enemyCharacter);
-    $(this).appendTo("#enemyCharacterSpot");
+    game.enemy = game.characters[$(this).data("name")];
+    console.log(game.enemy);
+    $(this).appendTo("#enemySpot");
     $(this).addClass("chosen");
     $(".logo").addClass("battle");
 
@@ -72,5 +69,5 @@ $(".character").on('click', function () {
 });
 
 /** -- Click To Attack Your Enemy -- **/
-  // Attack Enemy and take myCharacter.attack away from enemyCharacter.health
+  // Attack Enemy and take player.attack away from enemy.health
   //
