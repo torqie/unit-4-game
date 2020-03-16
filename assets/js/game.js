@@ -50,7 +50,7 @@ $(".character").on('click', function () {
     // Put chosen character into the myCharacter variable.
     game.myCharacter = game.characters[$(this).data("name")];
     console.log(game.myCharacter);
-    console.log(game.enemyCharacter);
+
     // Shrink all characters to 500px;
     allCharacters.children().addClass("small");
     allCharacters.removeClass("full");
@@ -63,8 +63,10 @@ $(".character").on('click', function () {
   } else if(game.enemyCharacter === null) {
 
     game.enemyCharacter = game.characters[$(this).data("name")];
+    console.log(game.enemyCharacter);
     $(this).appendTo("#enemyCharacterSpot");
-    //$(this).addClass("col-12").removeClass("col-4");
+    $(this).addClass("chosen");
+    $(".logo").addClass("battle");
 
   }
 });
