@@ -14,6 +14,7 @@ const game = {
     mario: {
       name: 'Mario',
       health: 100,
+      baseAttack: 10,
       attack: 10,
     },
 
@@ -21,13 +22,15 @@ const game = {
     luigi: {
       name: 'luigi',
       health: 120,
+      baseAttack: 8,
       attack: 8,
     },
 
     //Bowser
-    bowser: {
-      name: 'Bowser',
+    toad: {
+      name: 'Toad',
       health: 160,
+      baseAttack: 5,
       attack: 5,
     },
 
@@ -35,9 +38,25 @@ const game = {
     peach: {
       name: 'Princess Peach',
       health: 130,
+      baseAttack: 6,
       attack: 6,
     }
   },
+
+  attack() {
+    // Player attacks enemy with attack property
+    // Display the dmg to the user
+    // Lower enemy health
+    // Check if enemy is dead
+    // Add the baseAttack to the attack to create the new attack
+
+    // Pause for 1 second
+
+    //enemy attacks player with attack property
+    //display the dmg to the user
+    //lower player health
+    //Check if player is dead
+  }
 
 };
 
@@ -55,7 +74,7 @@ $(".character").on('click', function () {
     $(this).addClass("chosen");
     // Move selected character to the player Spot
     $(this).appendTo('#playerSpot');
-    allCharacters.children().appendTo(enemiesDiv);
+    allCharacters.children().appendTo(enemiesDiv).fadeIn();
 
   } else if(game.enemy === null) {
 
@@ -64,10 +83,14 @@ $(".character").on('click', function () {
     $(this).appendTo("#enemySpot");
     $(this).addClass("chosen");
     $(".logo").addClass("battle");
+    $("#button-attack").fadeIn("slow");
 
   }
 });
 
 /** -- Click To Attack Your Enemy -- **/
+$('#button-attack').on("click", function() {
+
+});
   // Attack Enemy and take player.attack away from enemy.health
   //

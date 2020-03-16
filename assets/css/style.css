@@ -103,7 +103,6 @@ h1, h2, h3, h4, h5, h6 {
   background: -webkit-linear-gradient(top,  #e52521 0%,#f7615d 50%,#e52521 100%);
   background: linear-gradient(to bottom,  #e52521 0%,#f7615d 50%,#e52521 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e52521', endColorstr='#e52521',GradientType=0 );
-
 }
 
 .toad {
@@ -112,5 +111,20 @@ h1, h2, h3, h4, h5, h6 {
   background: -webkit-linear-gradient(top,  #fbd000 0%,#ffe66b 50%,#fbd000 100%);
   background: linear-gradient(to bottom,  #fbd000 0%,#ffe66b 50%,#fbd000 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbd000', endColorstr='#fbd000',GradientType=0 );
+}
 
+#attack-box {
+  background-color: #525252;
+  height: 80%;
+}
+
+#button-attack {
+  font-family: Oswald, sans-serif;
+  font-size: 3rem;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  display: none;
 }
