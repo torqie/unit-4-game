@@ -114,8 +114,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #attack-box {
-  background-color: #525252;
+  background-color: #797979;
+  border: 1px solid #a9a9a9;
   height: 75%;
+  -webkit-box-shadow: inset 0 0 30px #00f;
+  -moz-box-shadow: inset 0 0 30px #00f;
+  box-shadow: inset 0 0 30px #ffffff;
+  display: none;
 }
 
 #attack-box p {
@@ -124,6 +129,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 50%;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
+
 }
 
 #button-attack {

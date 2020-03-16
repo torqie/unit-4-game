@@ -13,6 +13,8 @@ const game = {
   enemy: null,
 
 
+
+
   /** -- Define Each Character As An Object -- **/
   characters: {
     //Mario
@@ -53,7 +55,7 @@ const game = {
     /** -- Player attacks enemy -- **/
     // Pause for 3 seconds
     game.playerAttack();
-    setTimeout(function () {game.enemyAttack()}, 2600);
+    setTimeout(function () {game.enemyAttack()}, 1500);
 
     //enemy attacks player with attack property
 
@@ -67,9 +69,9 @@ const game = {
     // Lower enemy health
     enemy.health = enemy.health - player.attack;
     // Display the dmg to the user
-    $(attackBox).append("<p class='txt-success'>"+ player.name +" attacks " + enemy.name + " for " + player.attack + " damage!</p>");
+    $(attackBox).append("<p class='text-success'>"+ player.name +" attacks " + enemy.name + " for " + player.attack + " damage!</p>");
     $(attackBox).children().hide().fadeIn(500, function() {
-      $(this).fadeOut(2000, function () {
+      $(this).fadeOut(1000, function () {
         $(this).remove()
       })
     });
@@ -86,9 +88,9 @@ const game = {
     // Lower players health
     player.health -= enemy.attack;
     //display the dmg to the user
-    $(attackBox).append("<p class='txt-success'>"+ enemy.name +" attacks " + player.name + " for " + enemy.attack + " damage!</p>");
+    $(attackBox).append("<p class='text-danger'>"+ enemy.name +" attacks " + player.name + " for " + enemy.attack + " damage!</p>");
     $(attackBox).children().hide().fadeIn(500, function() {
-      $(this).fadeOut(2000, function () {
+      $(this).fadeOut(1000, function () {
         $(this).remove()
       })
     });
@@ -114,6 +116,7 @@ const game = {
 
 
 
+
 /** -- Click To Choose Your Character -- **/
 $(".character").on('click', function () {
   if(game.player === null) {
@@ -135,6 +138,7 @@ $(".character").on('click', function () {
     $(this).addClass("chosen");
     $(".logo").addClass("battle");
     $("#button-attack").fadeIn("slow");
+    $("#attack-box").fadeIn("slow");
 
   }
 });
