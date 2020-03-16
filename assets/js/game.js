@@ -1,4 +1,6 @@
 //Define Global variables
+const allCharacters = $('.characters');
+const enemies = $("#enemies");
 
 const game = {
   /** -- Define The Game Objects Variables -- **/
@@ -7,53 +9,63 @@ const game = {
 
 
   /** -- Define Each Character As An Object -- **/
-  //Mario
-  mario: {
-    name: 'Mario',
-    health: 100,
-    attack: 10,
-  },
+  characters: {
+    //Mario
+    mario: {
+      name: 'Mario',
+      health: 100,
+      attack: 10,
+    },
 
-  //Luigi
-  luigi: {
-    name: 'luigi',
-    health: 120,
-    attack: 8,
-  },
+    //Luigi
+    luigi: {
+      name: 'luigi',
+      health: 120,
+      attack: 8,
+    },
 
-  //Bowser
-  bowser: {
-    name: 'Bowser',
-    health: 160,
-    attack: 5,
-  },
+    //Bowser
+    bowser: {
+      name: 'Bowser',
+      health: 160,
+      attack: 5,
+    },
 
-  // Princess Peach
-  peach: {
-    name: 'Princess Peach',
-    health: 130,
-    attack: 6,
+    // Princess Peach
+    peach: {
+      name: 'Princess Peach',
+      health: 130,
+      attack: 6,
+    }
   },
 
 };
 
+
+
 /** -- Click To Choose Your Character -- **/
-$('.character').on('click', function () {
+$(".character").on('click', function () {
   // Check if the myCharacter variable is empty
-  if(this.myCharacter === null) {
+  if(game.myCharacter === null) {
     // Put chosen character into the myCharacter variable.
-    game.myCharacter = game[this.value];
-  }
-  // Move Enemies Down and Chosen Character left.
-});
+    game.myCharacter = game.characters[$(this).data("name")];
+    console.log(game.myCharacter);
+    console.log(game.enemyCharacter);
+    // Shrink all characters to 500px;
+    allCharacters.children().addClass("small");
+    allCharacters.removeClass("full");
+    // Add the class to the character that was clicked
+    $(this).addClass("chosen");
+    // Move selected character to the myCharacter Spot
+    $(this).appendTo('#myCharacterSpot');
+    allCharacters.children().appendTo("#enemies");
 
+  } else if(game.enemyCharacter === null) {
 
-/** -- Click To Choose Your Enemy -- **/
-$('.character').on('click', function () {
-  // Check if the myCharacter variable is empty, if so
-  if(this.myCharacter === null) {
-    // Put chosen character into the enemyCharacter variable.
-    game.enemyCharacter = game[this.value];
+    game.enemyCharacter = game.characters[$(this).data("name")];
+    $(this).appendTo("#enemyCharacterSpot");
+    //$(this).addClass("col-12").removeClass("col-4");
+
   }
 });
 

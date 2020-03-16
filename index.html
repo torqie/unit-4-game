@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Word Guess Game</title>
+  <title>Mario Battle</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Oswald:200,300,400,500,600,700|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
@@ -15,37 +15,70 @@
 </head>
 <body>
   <div class="container">
-    <div class="row text-center characters">
+    <div class="row text-center characters full">
 
       <!-- Page 1 -->
       <!--mario-->
-      <div class="character mario col-3">
+      <div class="character mario col" data-name="mario">
+        <div class="details">
         <h1 class="name">Mario</h1>
         <img class="img-fluid" src="assets/images/mario.png" alt="mario"/>
         <h2 class="health">Health: 100</h2>
+        </div>
       </div>
 
       <!--peach-->
-      <div class="character peach col-3">
-        <h1 class="name">Princess Peach</h1>
-        <img class="img-fluid" src="assets/images/peach.png" alt="princess peach" />
-        <h2 class="health">Health: 140</h2>
+      <div class="character peach col" data-name="peach">
+        <div class="details">
+          <h1 class="name">Princess Peach</h1>
+          <img class="img-fluid" src="assets/images/peach.png" alt="princess peach" />
+          <h2 class="health">Health: 140</h2>
+        </div>
       </div>
 
       <!--luigi-->
-      <div class="character luigi col-3">
+      <div class="character luigi col" data-name="luigi">
+        <div class="details">
         <h1 class="name">Luigi</h1>
         <img class="img-fluid" src="assets/images/luigi.png" alt="luigi" />
         <h2 class="health">Health: 120</h2>
+        </div>
       </div>
 
       <!--toad-->
-      <div class="character toad col-3">
+      <div class="character toad col" data-name="toad">
+        <div class="details">
         <h1 class="name">Toad</h1>
         <img class="img-fluid" src="assets/images/toad.png"alt="toad" />
         <h2 class="health">Health: 170</h2>
+        </div>
       </div>
     </div>
+
+    <div class="battle-field">
+      <div class="row text-center no-gutter">
+        <div id="myCharacterSpot" class="col-3 ">
+
+        </div>
+        <div class="col-6">
+
+        </div>
+        <div id="enemyCharacterSpot" class="col-3">
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-3"></div>
+        <div  class="col-6">
+          <div id="enemies" class="row">
+
+          </div>
+        </div>
+        <div class="col-3"></div>
+      </div>
+    </div>
+
 
     <div class="col-12 logo">
       <img class="img-fluid" src="assets/images/logo.png" alt="Logo">
@@ -56,8 +89,6 @@
 
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script type="text/javascript">
-
-  </script>
+  <script type="text/javascript" src="assets/js/game.js"></script>
 </body>
 </html>
