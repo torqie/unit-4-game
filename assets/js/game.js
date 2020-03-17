@@ -1,6 +1,10 @@
 //Define Global variables
 const allCharacters = $('.characters');
 const enemiesDiv = $("#enemies");
+const currentEnemiesDiv = $("#enemySpot");
+const buttonAttack = $("#button-attack");
+const attackBox = $("#attack-box");
+const playerSpot = $("#playerSpot");
 
 const marioCardHealth = $(".characters .mario .health");
 const luigiCardHealth = $(".characters .luigi .health");
@@ -11,92 +15,175 @@ const game = {
   /** -- Define The Game Objects Variables -- **/
   player: null,
   enemy: null,
-
-
-
+  wins: 0,
 
   /** -- Define Each Character As An Object -- **/
   characters: {
     //Mario
     mario: {
-      name: 'Mario',
-      health: 100,
-      baseAttack: 10,
-      attack: 10,
-    },
-
-    //Luigi
-    luigi: {
-      name: 'luigi',
+      name: "Mario",
+      color: "success",
       health: 120,
-      baseAttack: 8,
       attack: 8,
-    },
-
-    //Bowser
-    toad: {
-      name: 'Toad',
-      health: 160,
-      baseAttack: 5,
-      attack: 5,
+      baseAttack: 8,
+      counterAttack: 7,
     },
 
     // Princess Peach
     peach: {
-      name: 'Princess Peach',
-      health: 130,
-      baseAttack: 6,
-      attack: 6,
-    }
+      name: "Princess Peach",
+      color: "primary",
+      health: 100,
+      attack: 10,
+      baseAttack: 10,
+      counterAttack: 6,
+    },
+
+    //Luigi
+    luigi: {
+      name: "luigi",
+      color: "danger",
+      health: 150,
+      attack: 4,
+      baseAttack: 4,
+      counterAttack: 17,
+    },
+
+    //Toad
+    toad: {
+      name: "Toad",
+      color: "warning",
+      health: 180,
+      attack: 3,
+      baseAttack: 3,
+      counterAttack: 25,
+    },
+
+
   },
 
+  // Select Player Character
+  selectPlayer(player) {
+    // Put chosen character into the player variable.
+    this.player = this.characters[$(player).data("name")];
+    // Shrink all characters to 500px;
+    allCharacters.children().addClass("small");
+    allCharacters.removeClass("full");
+    // Add the class to the character that was clicked to highlight them
+    $(player).appendTo("#playerSpot").addClass("chosen");
+    // Add all other characters to the enemies list.
+    allCharacters.children().appendTo(enemiesDiv).fadeIn("slow");
+  },
+
+  // Select Enemy Character
+  selectEnemy(enemy) {
+    // Put chosen character into the enemy variable
+    this.enemy = this.characters[$(enemy).data("name")];
+    // Put character into enemy spot
+    $(enemy).appendTo("#enemySpot").addClass("chosen").fadeIn("slow");
+
+    //Fade out anything that is left in the attack box;
+    $(attackBox).children().fadeOut("slow", function () {
+      $(this).remove();
+      // Enable the attack button
+      $(buttonAttack).prop("disabled", false);
+    });
+
+    // Have the logo slide up.
+    $(".logo").addClass("battle");
+    //Fade but attack button in
+    $(buttonAttack).fadeIn("slow");
+    // Fade the attack box in.
+    $(attackBox).fadeIn("slow");
+  },
+
+  // Go through the attack sequence
   attack() {
-
-    /** -- Player attacks enemy -- **/
-    // Pause for 3 seconds
+    $(buttonAttack).prop("disabled", true);
+    // Player attacks enemy
     game.playerAttack();
-    setTimeout(function () {game.enemyAttack()}, 1500);
 
-    //enemy attacks player with attack property
-
+    // Enemy Attacks Player
+    if(!this.checkIfDead(this.enemy)) {
+      setTimeout(function () {game.enemyAttack()}, 1500);
+      $(buttonAttack).prop("disabled", false);
+    }
+    this.debug();
 
   },
 
   playerAttack() {
-    const enemy = this.enemy;
-    const player = this.player;
-    const attackBox = $("#attack-box");
     // Lower enemy health
-    enemy.health = enemy.health - player.attack;
+    this.enemy.health -= this.player.attack;
     // Display the dmg to the user
-    $(attackBox).append("<p class='text-success'>"+ player.name +" attacks " + enemy.name + " for " + player.attack + " damage!</p>");
+    $(attackBox).append("<p><span class='text-"+this.player.color+"'>" + this.player.name + "</span> attacks <span class='text-"+this.enemy.color+"'>" + this.enemy.name + "</span> for <span class='text-info'>" + this.player.attack + " damage!</span></p>");
+
     $(attackBox).children().hide().fadeIn(500, function() {
-      $(this).fadeOut(1000, function () {
-        $(this).remove()
-      })
+     game.slideFade($(this));
     });
     this.updateGameText();
-    // Check if enemy is dead
+
     // Add the baseAttack to the attack to create the new attack
-    player.attack += player.baseAttack;
+    this.player.attack += this.player.baseAttack;
+
+    // Check if enemy is dead
+    if(this.checkIfDead(this.enemy)) {
+      // Disable Attack Button
+      $("#button-attack").prop("disabled", true);
+      // Remove the enemy from the screen.
+      $(currentEnemiesDiv).children().fadeOut().remove();
+      //Set to no enemy
+      this.enemy = null;
+      $(attackBox).append("<h3>Please Choose A New Opponent</h3>");
+    }
+
   },
 
   enemyAttack() {
-    const enemy = this.enemy;
-    const player = this.player;
-    const attackBox = $("#attack-box");
     // Lower players health
-    player.health -= enemy.attack;
+    this.player.health -= this.enemy.counterAttack;
     //display the dmg to the user
-    $(attackBox).append("<p class='text-danger'>"+ enemy.name +" attacks " + player.name + " for " + enemy.attack + " damage!</p>");
-    $(attackBox).children().hide().fadeIn(500, function() {
-      $(this).fadeOut(1000, function () {
-        $(this).remove()
-      })
+    $(attackBox).append("<p><span class='text-"+this.enemy.color+"'>" + this.enemy.name + "</span> attacks <span class='text-"+this.player.color+"'>" + this.player.name + "</span> for <span class='text-info'>" + this.enemy.counterAttack + " damage!</span></p>");
+
+    $(attackBox).children().fadeIn(500, function() {
+      game.slideFade($(this));
     });
     this.updateGameText();
 
-    //Check if player is dead
+    //Check if player is dead.... I hope not!
+    if(this.checkIfDead(this.player)) {
+      alert("you lost")
+    }
+  },
+
+  checkIfDead(player) {
+    if(player === null) {
+      this.wins++;
+      this.checkIfWon();
+      return true;
+    } else if(player.health <= 0) {
+      return true;
+    }
+    return false;
+  },
+
+  checkIfWon() {
+    if(this.wins >= 3) {
+      $(attackBox).children().fadeOut("slow", function () {
+        $(this).remove();
+        // Enable the attack button
+        $(buttonAttack).prop("disabled", true);
+      });
+      setTimeout(function () {
+        $(".attack").children().fadeOut('slow');
+
+
+        $(playerSpot).css("position", "absolute");
+        $(playerSpot).css("top", ( $(window).height() - $(playerSpot).height() ) / 2+ "px");
+        $(playerSpot).css("left", ( $(window).width() - $(playerSpot).width() ) / 2 + "px");
+      }, 1500);
+
+    }
   },
 
   updateGameText() {
@@ -106,12 +193,17 @@ const game = {
     peachCardHealth.html(this.characters.peach.health);
   },
 
+  slideFade(elem) {
+    $(elem).css({'display':'block','opacity':'1'}).animate({'opacity':'0','top':'-=6rem'}, 2000, null, function () {
+      $(this).remove();
+    });
+  },
+
   debug() {
     console.log(this.player);
     console.log(this.enemy);
     console.log("-------------------------------");
   }
-
 };
 
 
@@ -120,26 +212,9 @@ const game = {
 /** -- Click To Choose Your Character -- **/
 $(".character").on('click', function () {
   if(game.player === null) {
-    // Put chosen character into the player variable.
-    game.player = game.characters[$(this).data("name")];
-    // Shrink all characters to 500px;
-    allCharacters.children().addClass("small");
-    allCharacters.removeClass("full");
-    // Add the class to the character that was clicked to highlight them
-    $(this).addClass("chosen");
-    // Move selected character to the player Spot
-    $(this).appendTo('#playerSpot');
-    allCharacters.children().appendTo(enemiesDiv).fadeIn();
-
-  } else if(game.enemy === null) {
-
-    game.enemy = game.characters[$(this).data("name")];
-    $(this).appendTo("#enemySpot");
-    $(this).addClass("chosen");
-    $(".logo").addClass("battle");
-    $("#button-attack").fadeIn("slow");
-    $("#attack-box").fadeIn("slow");
-
+    game.selectPlayer($(this));
+  } else if(game.enemy === null && !$(this).hasClass('chosen')) {
+    game.selectEnemy($(this));
   }
 });
 
