@@ -91,6 +91,7 @@ const game = {
 
     // Have the logo slide up.
     $(".logo").addClass("battle");
+    $(enemiesDiv).fadeTo(1000, .25);
     //Fade but attack button in
     $(buttonAttack).fadeIn("slow");
     // Fade the attack box in.
@@ -135,6 +136,7 @@ const game = {
       //Set to no enemy
       this.enemy = null;
       $(attackBox).append("<h3>Please Choose A New Opponent</h3>");
+      $(enemiesDiv).fadeTo(1000, 1);
     }
 
   },
@@ -171,16 +173,15 @@ const game = {
     if(this.wins >= 3) {
       $(attackBox).children().fadeOut("slow", function () {
         $(this).remove();
-        // Enable the attack button
-        $(buttonAttack).prop("disabled", true);
       });
       setTimeout(function () {
         $(".attack").children().fadeOut('slow');
 
-
+        $(playerSpot).addClass("winner");
         $(playerSpot).css("position", "absolute");
         $(playerSpot).css("top", ( $(window).height() - $(playerSpot).height() ) / 2+ "px");
         $(playerSpot).css("left", ( $(window).width() - $(playerSpot).width() ) / 2 + "px");
+
       }, 1500);
 
     }
