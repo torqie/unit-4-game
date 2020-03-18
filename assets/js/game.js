@@ -66,6 +66,7 @@ const game = {
   selectPlayer(player) {
     // Put chosen character into the player variable.
     this.player = this.characters[$(player).data("name")];
+    console.log(this.player);
     // Shrink all characters to 500px;
     allCharacters.children().addClass("small");
     allCharacters.removeClass("full");
@@ -74,13 +75,13 @@ const game = {
     // Add all other characters to the enemies list.
     allCharacters.children().appendTo(enemiesDiv).fadeIn("slow");
     $(".start").animate({top:110}, 1500);
-    $(".start h1").html("Select An Enemy");
   },
 
   // Select Enemy Character
   selectEnemy(enemy) {
     // Put chosen character into the enemy variable
     this.enemy = this.characters[$(enemy).data("name")];
+    console.log(this.enemy);
     // Put character into enemy spot
     $(enemy).appendTo("#enemySpot").addClass("chosen").fadeIn("slow");
     $(".start").fadeOut(function () {
@@ -103,6 +104,7 @@ const game = {
     $(attackBox).fadeIn("slow");
 
     $('body').addClass(this.player.name.toLowerCase()).fadeIn(3000);
+    this.updateGameText();
   },
 
   // Go through the attack sequence
@@ -162,9 +164,9 @@ const game = {
     this.updateGameText();
 
     //Check if player is dead.... I hope not!
-    if(this.checkIfLost()) {
-      alert("you lost")
-    }
+    this.checkIfLost();
+
+
   },
 
   checkIfEnemyDead() {
@@ -220,10 +222,10 @@ const game = {
   },
 
   updateGameText() {
-    $(".mario .health").html(this.characters.mario.health);
-    $(".peach .health").html(this.characters.peach.health);
-    $(".luigi .health").html(this.characters.luigi.health);
-    $(".toad .health").html(this.characters.toad.health);
+    $(".character.mario .health").html(this.characters.mario.health);
+    $(".character.peach .health").html(this.characters.peach.health);
+    $(".character.luigi .health").html(this.characters.luigi.health);
+    $(".character.toad .health").html(this.characters.toad.health);
   },
 
   slideFade(elem) {
@@ -233,8 +235,8 @@ const game = {
   },
 
   debug() {
-    console.log("Player: " + this.player);
-    console.log("Enemy: " + this.enemy);
+    console.log(this.player);
+    console.log(this.enemy);
     console.log("Wins: " + this.wins);
     console.log("-------------------------------");
   },
