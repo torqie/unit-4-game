@@ -31,7 +31,7 @@ const game = {
 
     // Princess Peach
     peach: {
-      name: "Princess Peach",
+      name: "Peach",
       color: "primary",
       health: 100,
       attack: 10,
@@ -41,7 +41,7 @@ const game = {
 
     //Luigi
     luigi: {
-      name: "luigi",
+      name: "Luigi",
       color: "danger",
       health: 150,
       attack: 4,
@@ -96,6 +96,8 @@ const game = {
     $(buttonAttack).fadeIn("slow");
     // Fade the attack box in.
     $(attackBox).fadeIn("slow");
+
+    $('body').addClass(this.player.name.toLowerCase()).fadeIn(3000);
   },
 
   // Go through the attack sequence
@@ -136,6 +138,7 @@ const game = {
       //Set to no enemy
       this.enemy = null;
       $(attackBox).append("<h3>Please Choose A New Opponent</h3>");
+      $(attackBox.children("h3").hide().fadeIn(1000));
       $(enemiesDiv).fadeTo(1000, 1);
     }
 
