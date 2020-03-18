@@ -62,6 +62,20 @@ const game = {
 
   },
 
+  createCharacters() {
+    for(let i = 0; i < this.characters.length; i++) {
+      var html = "<!--" + this.characters[i] + "-->\n" +
+          "      <div class=\"character mario col\" data-name=\"mario\">\n" +
+          "        <div class=\"details\">\n" +
+          "        <h1 class=\"name\">Mario</h1>\n" +
+          "        <img class=\"img-fluid\" src=\"assets/images/mario.png\" alt=\"mario\"/>\n" +
+          "          <h2>Health: <span class=\"health\">100</span></h2>\n" +
+          "        </div>\n" +
+          "      </div>";
+      $(".characters").append(html);
+    }
+  },
+
   // Select Player Character
   selectPlayer(player) {
     // Put chosen character into the player variable.
@@ -207,7 +221,11 @@ const game = {
     console.log(this.player);
     console.log(this.enemy);
     console.log("-------------------------------");
-  }
+  },
+
+  
+
+
 };
 
 

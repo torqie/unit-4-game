@@ -16,7 +16,7 @@ body.mario {
 }
 
 body.peach {
-  background: url("../images/peach-background.jpg") no-repeat center center fixed;
+  background: url("../images/peach-background.png") no-repeat center center fixed;
 }
 
 body.luigi {
